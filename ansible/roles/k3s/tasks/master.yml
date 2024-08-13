@@ -20,7 +20,14 @@
     name: curl
     state: present
 
+- name: Check if HELM is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/helm
+  register: helm_installed
+  become: true
+
 - name: Download Helm installation script
+  when: not helm_installed.stat.exists  
   get_url:
     url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
     dest: /tmp/get_helm.sh
@@ -28,6 +35,7 @@
   become: true
 
 - name: Run Helm installation script
+  when: not helm_installed.stat.exists  
   command: /tmp/get_helm.sh
   args:
     creates: /usr/local/bin/helm
@@ -36,10 +44,11 @@
   become: true
 
 - name: Add /usr/local/bin to PATH
+
   lineinfile:
     path: ~/.bashrc
     line: 'export PATH=$PATH:/usr/local/bin'
-  when: helm_install_result.rc == 0
+  when: helm_install_result.rc == 0 and not helm_installed.stat.exists  
   become: true
 
 - name: Read kubeconfig file

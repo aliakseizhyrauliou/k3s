@@ -29,3 +29,9 @@
     - include_role:
         name: k3s
         tasks_from: workers
+
+- name: Install helm longhorn
+  hosts: master
+  become: true
+  roles:
+    - role: longhorn
