@@ -44,12 +44,12 @@
   become: true
 
 - name: Add /usr/local/bin to PATH
-
   lineinfile:
     path: ~/.bashrc
     line: 'export PATH=$PATH:/usr/local/bin'
-  when: helm_install_result.rc == 0 and not helm_installed.stat.exists  
+  when: helm_install_result.changed and not helm_installed.stat.exists
   become: true
+
 
 - name: Read kubeconfig file
   shell: cat /etc/rancher/k3s/k3s.yaml
