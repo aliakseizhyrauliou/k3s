@@ -16,8 +16,8 @@
     create_namespace: true  # Создать пространство имен, если оно не существует
     kubeconfig: /etc/rancher/k3s/k3s.yaml  # Указываем путь к kubeconfig
 
-- name: Read definition template file from the Ansible controller file system
+- name: Apply the Kubernetes manifest
   kubernetes.core.k8s:
     state: present
-    template: '/templates/storageClass.j2'
-
+    src: "/root/k3s/ansible/roles/longhorn/files/storageClass.yml"
+    kubeconfig: /etc/rancher/k3s/k3s.yaml  # Указываем путь к kubeconfig
