@@ -18,3 +18,10 @@
     set_values:
       - value: storageClassName=longhorn
         value_type: string
+
+- name: Apply ingress manifest
+  kubernetes.core.k8s:
+    namespace: jenkins
+    state: present
+    src: "/root/k3s/ansible/roles/jenkins/files/ingress.yml"
+    kubeconfig: /etc/rancher/k3s/k3s.yaml  # Указываем путь к kubeconfig
