@@ -4,16 +4,19 @@
   hosts: master
   roles:
     - role: geerlingguy.docker
+  become: true
+
 
 - name: Setup K3s on master node
   hosts: master
-  become: yes
+  become: true
   roles:
     - role: k3s
 
 - name: Get K3S_TOKEN and K3S_URL from master node
   hosts: master
   gather_facts: no
+  become: true
   tasks:
     - include_role:
         name: k3s
@@ -21,7 +24,7 @@
 
 - name: Install K3s on worker nodes
   hosts: worker
-  become: yes
+  become: true
   tasks:
     - include_role:
         name: k3s

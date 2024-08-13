@@ -3,14 +3,24 @@
   ansible.builtin.stat:
     path: /usr/local/bin/k3s  
   register: k3s_installed
+  become: true
 
 - name: Download and install K3s
   ansible.builtin.shell: "curl -sfL https://get.k3s.io | sh -"
   when: not k3s_installed.stat.exists  
+  become: true
 
 - name: Get K3S_TOKEN
   ansible.builtin.command: cat /var/lib/rancher/k3s/server/node-token
   register: k3s_token
+  become: true
 
+- name: Read kubeconfig file
+  shell: cat /etc/rancher/k3s/k3s.yaml
+  register: kubeconfig_content
+  become: true
 
+- name: Print kubeconfig content
+  debug:
+    msg: "The content of kubeconfig is:\n{{ kubeconfig_content.stdout }}"
 
