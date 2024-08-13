@@ -1,2 +1,20 @@
 ---
-# handlers file for jenkins
+- name: Add a Jenking repository
+  become: true
+  kubernetes.core.helm_repository:
+    name: jenkins  
+    repo_url: https://charts.jenkins.io
+    kubeconfig: /etc/rancher/k3s/k3s.yaml  # Указываем путь к kubeconfig
+
+- name: Install Jenkins
+  become: true
+  kubernetes.core.helm:
+    name: jenkins  
+    namespace: jenkins
+    chart_ref: jenkins/jenkins
+    state: present
+    create_namespace: true  # Создать пространство имен, если оно не существует
+    kubeconfig: /etc/rancher/k3s/k3s.yaml  # Указываем путь к kubeconfig
+    set_values:
+      - value: storageClassName=longhorn
+        value_type: string
