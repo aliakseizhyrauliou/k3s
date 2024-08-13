@@ -1,4 +1,4 @@
 ---
 - name: Install K3s on worker nodes
   ansible.builtin.shell: |
-    curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars['master']['master_ip'].stdout }}:6443 K3S_TOKEN={{ hostvars['master']['k3s_token'].stdout }} sh -
+    curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.15:6443 K3S_TOKEN={{ hostvars['master']['k3s_token'].stdout }} sh -

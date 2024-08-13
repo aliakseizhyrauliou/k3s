@@ -1,8 +1,16 @@
 ---
+- name: Check if K3s is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/k3s  
+  register: k3s_installed
+
+- name: Download and install K3s
+  ansible.builtin.shell: "curl -sfL https://get.k3s.io | sh -"
+  when: not k3s_installed.stat.exists  
+
 - name: Get K3S_TOKEN
   ansible.builtin.command: cat /var/lib/rancher/k3s/server/node-token
   register: k3s_token
 
-- name: Get master node IP
-  ansible.builtin.command: hostname -I | awk '{print $1}'
-  register: master_ip
+
+
