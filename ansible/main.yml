@@ -1,0 +1,28 @@
+---
+
+- name: Setup Docker on master
+  hosts: master
+  roles:
+    - role: geerlingguy.docker
+
+- name: Setup K3s on master node
+  hosts: master
+  become: yes
+  roles:
+    - role: k3s
+
+- name: Get K3S_TOKEN and K3S_URL from master node
+  hosts: master
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: k3s
+        tasks_from: master
+
+- name: Install K3s on worker nodes
+  hosts: worker
+  become: yes
+  tasks:
+    - include_role:
+        name: k3s
+        tasks_from: workers

@@ -1,0 +1,7 @@
+---
+- name: Disable UFW
+  community.general.ufw:
+    state: disabled
+
+- name: Download and install K3s
+  ansible.builtin.shell: "curl -sfL https://get.k3s.io | sh -"
