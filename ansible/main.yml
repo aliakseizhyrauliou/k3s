@@ -35,3 +35,9 @@
   become: true
   roles:
     - role: longhorn
+
+- name: Install helm jenkins
+  hosts: master
+  become: true
+  roles:
+    - role: jenkins
