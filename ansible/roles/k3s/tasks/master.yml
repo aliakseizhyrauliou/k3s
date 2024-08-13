@@ -15,6 +15,18 @@
   register: k3s_token
   become: true
 
+- name: Check if helm is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/helm
+  register: helm_installed
+  become: true
+
+- name: Install helm
+  when: not helm_installed.stat.exists  
+  ansible.builtin.apt:
+    name: helm
+    state: present
+
 - name: Read kubeconfig file
   shell: cat /etc/rancher/k3s/k3s.yaml
   register: kubeconfig_content

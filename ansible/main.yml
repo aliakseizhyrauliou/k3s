@@ -1,7 +1,7 @@
 ---
 
 - name: Setup Docker on master
-  hosts: master
+  hosts: all
   roles:
     - role: geerlingguy.docker
   become: true
