@@ -23,5 +23,5 @@
   kubernetes.core.k8s:
     namespace: jenkins
     state: present
-    src: "/root/k3s/ansible/roles/jenkins/files/ingress.yml"
+    src: "/root/k3s/ansible/roles/jenkins/files/ingress.yaml"
     kubeconfig: /etc/rancher/k3s/k3s.yaml  # Указываем путь к kubeconfig
