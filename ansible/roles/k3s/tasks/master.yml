@@ -18,7 +18,7 @@
   become: true
 
 - name: Download and install K3s
-  ansible.builtin.shell: "curl -sfL https://get.k3s.io | sh -"
+  ansible.builtin.shell: "curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--node-ip=192.168.56.15 --flannel-iface=eth1' sh -"
   when: not k3s_installed.stat.exists  
   become: true
 
